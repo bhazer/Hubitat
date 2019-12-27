@@ -29,6 +29,7 @@ metadata {
         capability "Polling"
         capability "Switch"
         capability "Contact Sensor"
+        capability "Illuminance Measurement"
 
         command "generateEvent"
         command "setMotionModeAccel"
@@ -105,8 +106,11 @@ metadata {
         valueTile("setdoorclosed", "device.temperature", inactiveLabel: false, decoration: "flat") {
             state "default", label:'Arm & Set Door Closed Position', action:"setDoorClosedPosition", nextState: "default"
         }
-        main(["temperature", "acceleration", "motion", "presence", "humidity", "contact"])
-        details(["temperature", "presence", "humidity", "acceleration", "motion", "contact", "button", "refresh", "type", "doorClosed", "setdoorclosed", "beep", "rssi", "battery"])
+        valueTile("illuminance", "device.illuminance", inactiveLabel: false) {
+            state "illuminance", label:'${currentValue}% illuminance', unit:""
+        }
+        main(["temperature", "acceleration", "motion", "presence", "humidity", "contact", "illuminance"])
+        details(["temperature", "presence", "humidity", "acceleration", "motion", "contact", "button", "refresh", "type", "doorClosed", "setdoorclosed", "beep", "rssi", "battery", "illuminance"])
     }
 
     preferences {
