@@ -520,7 +520,7 @@ def setSingleCallback(def tag, Map callback, def type) {
         case "motion_detected":
             // to do, check if PIR type
                if (getTagTypeInfo(tag).isPIR == true) {
-                // pir
+                // pir & als
                 parameters = parameters + "name={0}&time={1}&id={2}"
             } else {
                 // standard
@@ -765,7 +765,7 @@ def getTagTypeInfo(def tag) {
     tagInfo.isMoistureTag = (tag.tagType == 32 || tag.tagType == 33);
     tagInfo.hasBeeper = (tag.tagType == 13 || tag.tagType == 12);
     tagInfo.isReed = (tag.tagType == 52 || tag.tagType == 53);
-    tagInfo.isPIR = (tag.tagType == 72);
+    tagInfo.isPIR = (tag.tagType == 72 || tag.tagType == 26);
     tagInfo.isKumostat = (tag.tagType == 62);
     tagInfo.isHTU = (tag.tagType == 52 || tag.tagType == 62 || tag.tagType == 72 || tag.tagType == 13);
     
