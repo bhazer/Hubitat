@@ -66,6 +66,7 @@ def handleUrlCallback () {
                         temperature: params.temperature.toDouble().round(1),
                         battery: batteryVoltageToPercentage((params.batteryVolt).toDouble()),
                         humidity: (params.cap).toDouble().round(),
+                        illuminance: (params.lux).toDouble().round(),
                     ]
                     break
 
@@ -384,7 +385,8 @@ def updateDeviceStatus(def device, def d) {
         contact : (tagEventStates[device.eventState] == "Opened") ? "open" : "closed",
         acceleration  : (tagEventStates[device.eventState] == "Moved") ? "active" : "inactive",
         motion : (tagEventStates[device.eventState] == "Moved") ? "active" : "inactive",
-        water : (device.shorted == true) ? "wet" : "dry" 
+        water : (device.shorted == true) ? "wet" : "dry",
+        illuminance : (device.lux).toDouble().round()
     ]
     d.generateEvent(data)
 }
@@ -498,7 +500,7 @@ def setSingleCallback(def tag, Map callback, def type) {
     
     switch (type) {
         case "update":
-            parameters = parameters + "name={0}&id={1}&temperature={2}&cap={3}&batteryVolt={6}"
+            parameters = parameters + "name={0}&id={1}&temperature={2}&cap={3}&lux={4}&batteryVolt={6}"
             break;
         case "water_dried": 
         case "water_detected":
@@ -793,6 +795,9 @@ def convertTagTypeToString(def tag) {
             break;
         case 13:
             tagString = "MotionHTU"
+            break;
+        case 26:
+            tagString = "ProALS"
             break;
         case 72:
             tagString = "PIR"
