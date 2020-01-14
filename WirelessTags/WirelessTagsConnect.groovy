@@ -128,7 +128,6 @@ def wirelessDeviceList() {
             input "pollTimer", "number", title:"Minutes between poll updates of the sensors", required:true, defaultValue:5
             paragraph "Select if you want the wireless tags server to push updates to your hub when a tag changes state. Your hub must be connected to the cloud for this to work."
             input(name: "supportCallbacks", title:"Receive pushes from Wireless Tags", type: "bool", defaultValue:false)
-            paragraph "If you have more than 5 or 6 sensors, you may need to create multiple instances of this SmartApp with only about 5 devices selected in each instance. Use a unique name here to create multiple apps."
             label title: "Assign a name for this app instance (optional)", required: false
         }
     }
