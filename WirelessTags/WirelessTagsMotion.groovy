@@ -188,7 +188,6 @@ def getMotionDecay() {
 
 def updated() {
     log.trace "updated"
-    parent.setMotionMode(this, device.currentState("motionMode")?.stringValue, getMotionDecay())
 }
 
 void generateEvent(Map results) {
