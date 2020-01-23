@@ -72,11 +72,8 @@ def handleUrlCallback () {
 
                 case "oor": data = [presence: "not present"]; break
                 case "back_in_range": data = [presence: "present"]; break
-                case "motion_detected": data = [acceleration: "active", motion: "active"]; startMotionTimer(d); break
-                
-                // motion timeout callback is not working currently in WST 
-                // case "motion_timedout": data = [acceleration: "inactive", motion: "inactive"]; break
-                
+                case "motion_detected": data = [acceleration: "active", motion: "active"]; break
+                case "motion_timedout": data = [acceleration: "inactive", motion: "inactive"]; break
                 case "door_opened": data = [contact: "open"]; break
                 case "door_closed": data = [contact: "closed"]; break
                 case "water_detected": data = [water : "wet"]; break                
