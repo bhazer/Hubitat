@@ -32,9 +32,8 @@ metadata {
         capability "Illuminance Measurement"
 
         command "generateEvent"
-        command "setMotionModeAccel"
-        command "setMotionModeDoor"
-        command "setMotionModeDisarm"
+        command "armMotion"
+        command "disarmMotion"
         command "setDoorClosedPosition"
         command "initialSetup"
 
@@ -98,11 +97,6 @@ metadata {
             state("open", label:'${name}', icon:"st.contact.contact.open", backgroundColor:"#ffa81e")
             state("closed", label:'${name}', icon:"st.contact.contact.closed", backgroundColor:"#79b821")
         }
-        valueTile("doorClosed", "device.motionMode", inactiveLabel: false, decoration: "flat") {
-            state ("accel", label:'Motion Mode:  ${currentValue}', action:"setMotionModeAccel", nextState: "door")
-            state ("door", label:'Motion Mode:  ${currentValue}', action:"setMotionModeDoor", nextState: "disarmed")
-            state ("disarmed", label:'Motion Mode:  ${currentValue}', action:"setMotionModeDisarm", nextState: "accel")
-        }
         valueTile("setdoorclosed", "device.temperature", inactiveLabel: false, decoration: "flat") {
             state "default", label:'Arm & Set Door Closed Position', action:"setDoorClosedPosition", nextState: "default"
         }
@@ -151,25 +145,14 @@ def refresh() {
     parent.refreshChild(this)
 }
 
-def setMotionModeAccel() {
-    log.debug "set to door"
-    def newMode = "door"
-    parent.setMotionMode(this, newMode, getMotionDecay())
-    sendEvent(name: "motionMode", value: newMode)
+def armMotion() {
+    log.trace "armMotion"
+    parent.armMotion(this)
 }
 
-def setMotionModeDoor() {
-    log.debug "set to disarm"
-    def newMode = "disarmed"
-    parent.setMotionMode(this, newMode, getMotionDecay())
-    sendEvent(name: "motionMode", value: newMode)
-}
-
-def setMotionModeDisarm() {
-    log.debug "set to accel"
-    def newMode = "accel"
-    parent.setMotionMode(this, newMode, getMotionDecay())
-    sendEvent(name: "motionMode", value: newMode)
+def disarmMotion() {
+    log.trace "disarmMotion"
+    parent.disarmMotion(this)
 }
 
 def setDoorClosedPosition() {
