@@ -44,6 +44,10 @@ mappings {
     }    
 }
 
+def safeToDouble(val) {
+    return val.isDouble() ? val.toDouble() : 0.0
+}
+
 def handleUrlCallback () {
     log.trace "url callback"
     debugEvent ("url callback: $params", true)
@@ -63,10 +67,10 @@ def handleUrlCallback () {
             switch (type) {
                 case "update":
                     data = [
-                        temperature: params.temperature.toDouble().round(1),
-                        battery: batteryVoltageToPercentage((params.batteryVolt).toDouble()),
-                        humidity: (params.cap).toDouble().round(),
-                        illuminance: (params.lux).toDouble().round(),
+                        temperature: safeToDouble(params.temperature).round(1),
+                        battery: batteryVoltageToPercentage(safeToDouble(params.batteryVolt)),
+                        humidity: safeToDouble(params.cap).round(),
+                        illuminance: safeToDouble(params.lux).round(),
                     ]
                     break
 
@@ -372,17 +376,17 @@ def updateDeviceStatus(def device, def d) {
     // parsing data here
     def data = [
         tagType: convertTagTypeToString(device),
-        temperature: device.temperature.toDouble().round(1),
+        temperature: safeToDouble(device.temperature).round(1),
         rssi: ((Math.max(Math.min(device.signaldBm, -60),-100)+100)*100/40).toDouble().round(),
         presence: ((device.OutOfRange == true) ? "not present" : "present"),
         battery: batteryVoltageToPercentage(device.batteryVolt),
         switch: ((device.lit == true) ? "on" : "off"),
-        humidity: (device.cap).toDouble().round(),
+        humidity: safeToDouble(device.cap).round(),
         contact : (tagEventStates[device.eventState] == "Opened") ? "open" : "closed",
         acceleration  : (tagEventStates[device.eventState] == "Moved") ? "active" : "inactive",
         motion : (tagEventStates[device.eventState] == "Moved") ? "active" : "inactive",
         water : (device.shorted == true) ? "wet" : "dry",
-        illuminance : (device.lux).toDouble().round()
+        illuminance : safeToDouble(device.lux).round()
     ]
     d.generateEvent(data)
 }
