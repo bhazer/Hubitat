@@ -45,7 +45,7 @@ mappings {
 }
 
 def safeToDouble(val) {
-    return val.isDouble() ? val.toDouble() : 0.0
+    return (val != null && val.toString().isDouble()) ? val.toDouble() : 0.0
 }
 
 def handleUrlCallback () {
